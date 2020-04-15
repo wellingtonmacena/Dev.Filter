@@ -1,2 +1,4 @@
 # Filter.Dev
-Desenvolvimento de aplicação de geolocalização de Devs usando Node.js, React, e React Native
+Development of aplication who geolocalizes developers inside a spefic distance radius and filter them by the tecnhologies they know the most
+
+Developed during semana ominstack 10.0 provided by Rocketseat
