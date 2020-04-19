@@ -23,7 +23,6 @@ module.exports = {
                     latitude
                 ]
             }
-
             dev = await Dev.create({
                 github_username,
                 name,
@@ -31,7 +30,6 @@ module.exports = {
                 avatar_url,
                 techs: techArray,
                 location
-
             })
         }
         return res.json(dev)
@@ -40,13 +38,10 @@ module.exports = {
     async index(req, res, next) {
 
         const list = await Dev.find()
-        await Dev.countDocuments({__v: 0}, (err, count)=>{
-            res.header("DocumentsCount", count)
-            next()
+        const DocumentsCount = await Dev.countDocuments({ __v: 0 }, (err, count) => {
         })
-
+        
         return res.json(list)
-
     },
 
     async destroy(req, res) {
@@ -68,14 +63,14 @@ module.exports = {
 
         const { username } = req.params
 
-        const { name1, bio1, techs } = req.body
+        const { name, bio, techs } = req.body
         const found = await Dev.findOne({ github_username: username })
         const arrayTechs = toParse(techs)
 
         await Dev.updateOne({ github_username: username }, {
             $set: {
-                name: name1,
-                bio: bio1,
+                name: name,
+                bio: bio,
                 techs: arrayTechs
 
             }
@@ -86,6 +81,5 @@ module.exports = {
                 if (!found) return res.status(404).json({ error: `${username} not found` })
                 else return res.json({ message: `${username} updated with sucess` })
             })
-
     }
 }

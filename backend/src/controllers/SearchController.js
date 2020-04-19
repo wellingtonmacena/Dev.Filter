@@ -8,8 +8,6 @@ module.exports ={
         const {latitude, longitude,techs} = req.query
         const techsArray = toParse(techs)
 
-        
-
         const devs = await Dev.find({
             techs:{
                 $in: techsArray,
@@ -24,7 +22,7 @@ module.exports ={
                 },
             },
         })
-  
+ 
         return res.json(devs)
     }
 

@@ -11,5 +11,4 @@ const DevSchema = new mongoose.Schema({
         index: '2dsphere'
     }
 })
-
 module.exports = mongoose.model('Dev', DevSchema) 
