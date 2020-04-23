@@ -22,7 +22,6 @@ export default function App() {
 
   }, [devs])
 
-
   async function handleAddDev(data) {
 
     const response = await api.post("/devs", data)
@@ -54,7 +53,7 @@ export default function App() {
                 <img src={dev.avatar_url} alt="" />
                 <div className="user-info">
 
-                  <strong>{dev.name}</strong>
+                  <strong>{dev.name}</strong>                  
                   <span>{dev.techs.join(', ')}</span>
 
                 </div>
@@ -62,15 +61,14 @@ export default function App() {
 
               <p>{dev.bio ? dev.bio : `Conteúdo Vazio`}</p>
               <div className="acessAndDelete">
-
+                
                 <a href={`https://github.com/${dev.github_username}`}>Acessar perfil no Github</a>
 
                 <button onClick={() => { handleDelete(dev) }}>
                   <img src={garbage} alt="" />
                 </button>
-
+                              
               </div>
-
 
             </li>
           ))}
