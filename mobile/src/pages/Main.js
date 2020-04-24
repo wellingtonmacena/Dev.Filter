@@ -5,8 +5,8 @@ import { requestPermissionsAsync, getCurrentPositionAsync } from "expo-location"
 import { MaterialIcons } from "@expo/vector-icons"
 //console.disableYellowBox = true;
 
-
 import api from '../services/api.js'
+import { connect, disconnect, subscribeToNewDevs } from "../services/socket"
 
 
 export default function Main({ navigation }) {
@@ -39,6 +39,23 @@ export default function Main({ navigation }) {
 
     }, [])
 
+    useEffect(()=>{
+            subscribeToNewDevs(dev => setDevs(...devs, dev))
+    }, [devs])
+
+    function setupWebsocket() {
+        disconnect()
+    }
+
+    async function setupWebsocket() {
+
+        const { latitude, longitude } = currentRegion
+
+        connect(
+            latitude,
+            longitude,
+            techs)
+    }
     async function loadDevs() {
         const { latitude, longitude } = currentRegion
 
@@ -52,6 +69,7 @@ export default function Main({ navigation }) {
         })
 
         setDevs(response.data.devs)
+        setupWebsocket()
     }
 
     function handleRegionChanged(region) {
@@ -72,34 +90,34 @@ export default function Main({ navigation }) {
                 onRegionChangeComplete={handleRegionChanged}
             >
 
-            {devs.map(dev => (
-                <Marker
-                    key={dev._id}
-                    coordinate={
-                        {
-                            longitude: dev.location.coordinates[0],
-                            latitude: dev.location.coordinates[1]
+                {devs.map(dev => (
+                    <Marker
+                        key={dev._id}
+                        coordinate={
+                            {
+                                longitude: dev.location.coordinates[0],
+                                latitude: dev.location.coordinates[1]
 
-                        }}
-                >
+                            }}
+                    >
 
-                    <Image style={styles.avatar}
-                        source={{ uri: dev.avatar_url }} />
+                        <Image style={styles.avatar}
+                            source={{ uri: dev.avatar_url }} />
 
-                    <Callout
-                        onPress={() =>
-                            navigation.navigate('Dev.Filter', [dev.github_username])
-                        }>
+                        <Callout
+                            onPress={() =>
+                                navigation.navigate('Dev.Filter', [dev.github_username])
+                            }>
 
-                        <View style={styles.callout}>
-                            <Text style={styles.devName}>{dev.name}</Text>
-                            <Text style={styles.devBio}>{dev.bio}</Text>
-                            <Text style={styles.devTechs}>{dev.techs.join(', ')}</Text>
+                            <View style={styles.callout}>
+                                <Text style={styles.devName}>{dev.name}</Text>
+                                <Text style={styles.devBio}>{dev.bio}</Text>
+                                <Text style={styles.devTechs}>{dev.techs.join(', ')}</Text>
 
-                        </View>
-                    </Callout>
-                </Marker>
-            ))}
+                            </View>
+                        </Callout>
+                    </Marker>
+                ))}
 
             </MapView>
             <View style={styles.searchForm}>

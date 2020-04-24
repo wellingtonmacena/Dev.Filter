@@ -1,4 +1,3 @@
-const api = require('axios')
 const Dev = require('../Models/Dev')
 const toParse = require('../controllers/utils/parseStringAsArray')
 

@@ -1,7 +1,7 @@
 const api = require('axios')
 const Dev = require('../Models/Dev')
 const toParse = require('../controllers/utils/parseStringAsArray')
-
+const {findConnections, sendMessage} = require('../websocket')
 module.exports = {
 
     async store(req, res) {
@@ -31,6 +31,14 @@ module.exports = {
                 techs: techArray,
                 location
             })
+
+
+            const sendSocketMessageTo = findConnections(
+                {latitude, longitude},
+                techsArray,
+
+                sendMessage(sendSocketMessageTo, 'new-dev'. dev)
+            )
         }
         return res.json(dev)
     },
@@ -38,8 +46,11 @@ module.exports = {
     async index(req, res, next) {
 
         const list = await Dev.find()
+
+        //Faz contagem de quantos documentos há no banco
         const DocumentsCount = await Dev.countDocuments({ __v: 0 }, (err, count) => {
         })
+        list.unshift({DocumentsCount:DocumentsCount})
         
         return res.json(list)
     },
