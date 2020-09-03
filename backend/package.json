@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/wellingtonmacena/Filter.Dev.git",
-  "author": "wellingtonmacena <wellington.msantos@bantec.com.br>",
+  "author": "wellingtonmacena <wellington.macena.23@gmail.com.br>",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.js"
